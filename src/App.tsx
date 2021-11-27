@@ -1,26 +1,35 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, {useState, useCallback} from 'react';
+
+import {List} from '../src/components/list/list';
+import {ListItemForm} from '../src/components/list-item-form/list-item-form'
+import data from '../src/data/data.json';
+
+import './App.scss';
 
 function App() {
+  const [ list, setList ] = useState(data);
+
+  const handleToggle = useCallback((id: number) => {
+     let mapped = list.map(item => {
+       return item.id === id ? { ...item, complete: !item.complete } : { ...item};
+     });
+     setList(mapped);
+   }, [list, setList]);
+
+   const addItem = useCallback((userInput) => {
+     let copy = [...list];
+     copy = [...copy, {id: copy.length + 1, item: userInput.item, complete: false, link: userInput.link}]
+     setList(copy);
+     console.log(list)
+   },[list, setList]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="main">
+      <h2>Lista prezentow</h2>
+      <List list={list} handleToggle={handleToggle}/>
+      <ListItemForm addItem={addItem}/>
     </div>
   );
-}
+};
 
 export default App;
