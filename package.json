@@ -40,7 +40,5 @@
       "last 1 safari version"
     ]
   },
-  "devDependencies": {
-    "sass-loader": "^12.3.0"
-  }
+  "devDependencies": {}
 }
